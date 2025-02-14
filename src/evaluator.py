@@ -1,0 +1,1 @@
+# Código para análise e ranking das respostas
