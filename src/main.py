@@ -1,4 +1,4 @@
-from llm_clients import get_anthropic_response, get_gemini_response, get_openai_response
+from llm_clients import get_qwen_response, get_gemma_response, get_llama3_response
 from evaluator import evaluate_responses
 
 if __name__ == '__main__':
@@ -12,9 +12,9 @@ if __name__ == '__main__':
     
     for i, question in enumerate(questions):
         responses = {
-            'ChatGPT': get_openai_response(question),
-            'Gemini': get_gemini_response(question),
-            'Claude': get_anthropic_response(question)
+            'Qwen': get_qwen_response(question),
+            'Gemma': get_gemma_response(question),
+            'Llama3': get_llama3_response(question)
         }
     
         ranking_result = evaluate_responses(question, responses)

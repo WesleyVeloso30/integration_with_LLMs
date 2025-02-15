@@ -1,26 +1,29 @@
-# Código para chamadas às APIs dos LLMs     
 import openai
-import requests
-from config.settings import OPENAI_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY
+import os
+from config.settings import GROQ_API_KEY
 
-def get_openai_response(question):
-    response = openai.ChatCompletion.create(
-        model='gpt-4',
-        messages=[{'role': 'user', 'content': question}],
-        api_key=OPENAI_API_KEY
-    )
-    return response['choices'][0]['message']['content']
+# Configuração da API GroqCloud
+openai.api_key = GROQ_API_KEY
+openai.api_base = "https://api.groq.com/openai/v1"
 
-def get_gemini_response(question):
-    url = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateText'
-    headers = {'Content-Type': 'application/json'}
-    payload = {'prompt': {'text': question}, 'key': GEMINI_API_KEY}
-    response = requests.post(url, headers=headers, json=payload)
-    return response.json()['candidates'][0]['output']
+# Função genérica para chamar modelos no GroqCloud
+def get_llm_response(question, model):
+    """Envia uma pergunta para um modelo de LLM no GroqCloud e retorna a resposta."""
+    try:
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=[{"role": "user", "content": question}]
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        return f"Erro ao obter resposta do {model}: {str(e)}"
 
-def get_anthropic_response(question):
-    url = 'https://api.anthropic.com/v1/complete'
-    headers = {'x-api-key': ANTHROPIC_API_KEY, 'Content-Type': 'application/json'}
-    payload = {'model': 'claude-2', 'prompt': question, 'max_tokens': 500}
-    response = requests.post(url, headers=headers, json=payload)
-    return response.json()['completion']
+# Funções específicas para cada modelo
+def get_llama3_response(question):
+    return get_llm_response(question, "llama3-8b-8192")
+
+def get_qwen_response(question):
+    return get_llm_response(question, "qwen-2.5-32b")
+
+def get_gemma_response(question):
+    return get_llm_response(question, "gemma-7b-it")
