@@ -39,7 +39,7 @@ INTEGRATION_WITH_LLMS/
 1. Clone o repositório
 
     ```bash
-    git clone https://github.com/seu-usuario/integration_with_LLMs.git
+    git clone https://github.com/WesleyVeloso30/integration_with_LLMs.git
     cd integration_with_LLMs
     ```
 
