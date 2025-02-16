@@ -10,7 +10,7 @@ def evaluate_responses(question, responses):
     ranking = {
         'Qwen': get_qwen_response(evaluation_prompt),
         'Gemma': get_gemma_response(evaluation_prompt),
-        'Llama': get_llama3_response(evaluation_prompt)
+        'Llama3': get_llama3_response(evaluation_prompt)
     }
     
     return ranking
